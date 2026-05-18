@@ -1,0 +1,8 @@
+name: CrownExtraWGFlags
+version: 1.0.0
+author: Obey
+main: de.obey.CrownExtraWGFlags
+api-version: '1.21.11'
+
+depend:
+  - WorldGuard
