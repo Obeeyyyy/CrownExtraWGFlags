@@ -6,11 +6,12 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import de.obey.listener.BlockDropListener;
 import de.obey.listener.EnderPearlListener;
+import de.obey.listener.MaceBlockDestructionListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CrownExtraWGFlags extends JavaPlugin {
 
-    public static StateFlag BLOCK_DROP_FLAG, PEARL_INTO;
+    public static StateFlag BLOCK_DROP_FLAG, PEARL_INTO, MACE_BLOCK_DESTRUCTION;
 
     public static CrownExtraWGFlags getInstance() {
         return getPlugin(CrownExtraWGFlags.class);
@@ -25,6 +26,7 @@ public final class CrownExtraWGFlags extends JavaPlugin {
     public void onEnable() {
         getServer().getPluginManager().registerEvents(new BlockDropListener(), this);
         getServer().getPluginManager().registerEvents(new EnderPearlListener(), this);
+        getServer().getPluginManager().registerEvents(new MaceBlockDestructionListener(), this);
     }
 
     private void registerFlag() {
@@ -35,6 +37,9 @@ public final class CrownExtraWGFlags extends JavaPlugin {
 
             PEARL_INTO = new StateFlag("pearl-into", true);
             registry.register(PEARL_INTO);
+
+            MACE_BLOCK_DESTRUCTION = new StateFlag("mace-block-destruction", true);
+            registry.register(MACE_BLOCK_DESTRUCTION);
         } catch (final FlagConflictException ignored){}
     }
 }
