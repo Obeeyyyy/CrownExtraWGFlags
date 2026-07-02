@@ -6,12 +6,13 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.flags.registry.FlagRegistry;
 import de.obey.listener.BlockDropListener;
 import de.obey.listener.EnderPearlListener;
+import de.obey.listener.FireSpawnListener;
 import de.obey.listener.MaceBlockDestructionListener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CrownExtraWGFlags extends JavaPlugin {
 
-    public static StateFlag BLOCK_DROP_FLAG, PEARL_INTO, MACE_BLOCK_DESTRUCTION;
+    public static StateFlag BLOCK_DROP_FLAG, PEARL_INTO, MACE_BLOCK_DESTRUCTION, ANCHOR_FIRE_SPAWN;
 
     public static CrownExtraWGFlags getInstance() {
         return getPlugin(CrownExtraWGFlags.class);
@@ -27,6 +28,7 @@ public final class CrownExtraWGFlags extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockDropListener(), this);
         getServer().getPluginManager().registerEvents(new EnderPearlListener(), this);
         getServer().getPluginManager().registerEvents(new MaceBlockDestructionListener(), this);
+        getServer().getPluginManager().registerEvents(new FireSpawnListener(), this);
     }
 
     private void registerFlag() {
@@ -40,6 +42,9 @@ public final class CrownExtraWGFlags extends JavaPlugin {
 
             MACE_BLOCK_DESTRUCTION = new StateFlag("mace-block-destruction", true);
             registry.register(MACE_BLOCK_DESTRUCTION);
+
+            ANCHOR_FIRE_SPAWN = new StateFlag("anchor-fire-spawn", true);
+            registry.register(ANCHOR_FIRE_SPAWN);
         } catch (final FlagConflictException ignored){}
     }
 }
