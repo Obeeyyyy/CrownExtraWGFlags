@@ -3,6 +3,22 @@ version: 1.0.0
 author: Obey
 main: de.obey.CrownExtraWGFlags
 api-version: '1.21.11'
+folia-supported: true
 
 depend:
   - WorldGuard
+
+commands:
+  crownextrawgflags:
+    description: CrownExtraWGFlags command
+    permission: crownextrawgflags.admin
+
+permissions:
+  crownextrawgflags.admin:
+    description: Grants access to all CrownExtraWGFlags commands
+    default: op
+    children:
+      crownextrawgflags.reload: true
+  crownextrawgflags.reload:
+    description: Allows reloading the CrownExtraWGFlags configuration
+    default: op

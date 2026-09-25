@@ -1,6 +1,5 @@
 package de.obey.listener;
 
-
 /*
     Author: Obey
     Date: 15.05.2026
@@ -27,8 +26,10 @@ public class BlockDropListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockBreak(BlockBreakEvent event) {
-
         if (CrownExtraWGFlags.BLOCK_DROP_FLAG == null)
+            return;
+
+        if (CrownExtraWGFlags.isBlockDropExcluded(event.getBlock().getType()))
             return;
 
         final RegionContainer container = WorldGuard.getInstance()
@@ -36,10 +37,7 @@ public class BlockDropListener implements Listener {
                 .getRegionContainer();
 
         final RegionQuery query = container.createQuery();
-
-        com.sk89q.worldedit.util.Location weLoc = BukkitAdapter.adapt(event.getBlock().getLocation());
-
-
+        final com.sk89q.worldedit.util.Location weLoc = BukkitAdapter.adapt(event.getBlock().getLocation());
         final ApplicableRegionSet regions = query.getApplicableRegions(weLoc);
         final StateFlag.State state = regions.queryState(null, CrownExtraWGFlags.BLOCK_DROP_FLAG);
 
@@ -49,14 +47,20 @@ public class BlockDropListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockBreak(EntityExplodeEvent event) {
+        if (CrownExtraWGFlags.BLOCK_DROP_FLAG == null)
+            return;
 
         final RegionContainer container = WorldGuard.getInstance()
                 .getPlatform()
                 .getRegionContainer();
 
+        final RegionQuery query = container.createQuery();
+
         event.blockList().removeIf(block -> {
-            ApplicableRegionSet regions = container.createQuery()
-                    .getApplicableRegions(BukkitAdapter.adapt(block.getLocation()));
+            if (CrownExtraWGFlags.isBlockDropExcluded(block.getType())) {
+                return false;
+            }
+            final ApplicableRegionSet regions = query.getApplicableRegions(BukkitAdapter.adapt(block.getLocation()));
             if (regions.queryState(null, CrownExtraWGFlags.BLOCK_DROP_FLAG) == StateFlag.State.DENY) {
                 block.setType(Material.AIR);
                 return true;
@@ -67,14 +71,20 @@ public class BlockDropListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockBreak(BlockExplodeEvent event) {
+        if (CrownExtraWGFlags.BLOCK_DROP_FLAG == null)
+            return;
 
         final RegionContainer container = WorldGuard.getInstance()
                 .getPlatform()
                 .getRegionContainer();
 
+        final RegionQuery query = container.createQuery();
+
         event.blockList().removeIf(block -> {
-            ApplicableRegionSet regions = container.createQuery()
-                    .getApplicableRegions(BukkitAdapter.adapt(block.getLocation()));
+            if (CrownExtraWGFlags.isBlockDropExcluded(block.getType())) {
+                return false;
+            }
+            final ApplicableRegionSet regions = query.getApplicableRegions(BukkitAdapter.adapt(block.getLocation()));
             if (regions.queryState(null, CrownExtraWGFlags.BLOCK_DROP_FLAG) == StateFlag.State.DENY) {
                 block.setType(Material.AIR);
                 return true;

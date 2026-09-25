@@ -6,6 +6,7 @@ plugins {
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://maven.canvasmc.io/public")
     maven("https://maven.enginehub.org/repo/")
 }
 
