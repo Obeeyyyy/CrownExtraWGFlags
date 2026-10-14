@@ -15,6 +15,7 @@ import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import de.obey.CrownExtraWGFlags;
 import org.bukkit.Material;
+import org.bukkit.entity.AbstractWindCharge;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -47,6 +48,12 @@ public class BlockDropListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void onBlockBreak(EntityExplodeEvent event) {
+        if (event.getEntity() instanceof AbstractWindCharge
+                || (event.getEntity() != null && event.getEntityType().name().contains("WIND_CHARGE"))) {
+            event.blockList().clear();
+            return;
+        }
+
         if (CrownExtraWGFlags.BLOCK_DROP_FLAG == null)
             return;
 
